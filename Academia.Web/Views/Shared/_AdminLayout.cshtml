@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+        }
+        .sidebar {
+            background-color: #0f5132;
+            min-height: 100vh;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #198754;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- MENU LATERAL -->
+            <nav class="col-md-3 col-lg-2 sidebar">
+                <h4 class="text-white text-center py-3">🏋️ Admin</h4>
+                <a href="/Admin">Dashboard</a>
+                <a href="/Admin/Alunos">Alunos</a>
+                <a href="/Admin/Treinos">Treinos</a>
+                <a href="/Login">Sair</a>
+            </nav>
+
+            <!-- CONTEÚDO -->
+            <main class="col-md-9 col-lg-10 p-4">
+                @RenderBody()
+            </main>
+
+        </div>
+    </div>
+</body>
+</html>

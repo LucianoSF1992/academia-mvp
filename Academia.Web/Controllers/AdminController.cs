@@ -6,6 +6,19 @@ public class AdminController : Controller
 {
     public IActionResult Index()
     {
-        return Content("Painel do Admin");
+        ViewData["Title"] = "Dashboard";
+        return View();
+    }
+
+    public IActionResult Alunos()
+    {
+        ViewData["Title"] = "Alunos";
+        return View();
+    }
+
+    public IActionResult Treinos()
+    {
+        ViewData["Title"] = "Treinos";
+        return View();
     }
 }

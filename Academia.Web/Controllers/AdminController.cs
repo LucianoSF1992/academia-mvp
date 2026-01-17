@@ -21,4 +21,33 @@ public class AdminController : Controller
         ViewData["Title"] = "Treinos";
         return View();
     }
+
+    [HttpGet]
+    public IActionResult NovoAluno()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SalvarAluno(
+        string Nome, string Email, int? Idade, string Objetivo)
+    {
+        var client = new HttpClient();
+
+        var aluno = new
+        {
+            nome = Nome,
+            email = Email,
+            idade = Idade,
+            objetivo = Objetivo
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(aluno);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        await client.PostAsync("http://localhost:5118/api/alunos", content);
+
+        return RedirectToAction("Alunos");
+    }
+
 }

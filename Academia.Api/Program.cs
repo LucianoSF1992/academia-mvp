@@ -17,6 +17,17 @@ builder.Services.AddDbContext<AcademiaContext>(options =>
     );
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("WebAppPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5209")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // =====================
@@ -27,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("WebAppPolicy");
 
 app.UseAuthorization();
 app.MapControllers();

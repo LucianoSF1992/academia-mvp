@@ -4,27 +4,71 @@
 
 <h2>Alunos</h2>
 
-<a class="btn btn-success mb-3">Adicionar novo aluno</a>
+<a class="btn btn-success mb-3" href="/Admin/NovoAluno">
+    + Adicionar novo aluno
+</a>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Nome</th>
             <th>E-mail</th>
+            <th>Idade</th>
             <th>Objetivo</th>
             <th>Ações</th>
         </tr>
     </thead>
-    <tbody>
-        <!-- MVP: dados mockados -->
-        <tr>
-            <td>Aluno Teste</td>
-            <td>aluno@academia.com</td>
-            <td>Hipertrofia</td>
-            <td>
-                <button class="btn btn-sm btn-primary">Editar</button>
-                <button class="btn btn-sm btn-danger">Excluir</button>
-            </td>
-        </tr>
+    <tbody id="tabela-alunos">
     </tbody>
 </table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        carregarAlunos();
+    });
+
+    function carregarAlunos() {
+        fetch('http://localhost:5118/api/alunos')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('tabela-alunos');
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                Nenhum aluno cadastrado
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                data.forEach(a => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${a.nome}</td>
+                            <td>${a.email}</td>
+                            <td>${a.idade ?? ''}</td>
+                            <td>${a.objetivo}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger"
+                                    onclick="excluir(${a.id})">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>`;
+                });
+            })
+            .catch(err => console.error('Erro ao carregar alunos:', err));
+    }
+
+    function excluir(id) {
+        if (!confirm('Deseja excluir este aluno?')) return;
+
+        fetch(`http://localhost:5118/api/alunos/${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => carregarAlunos());
+    }
+</script>
